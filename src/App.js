@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import PredictForm from './components/PredictForm';
+import Dataset from './components/Dataset';
+import Information from './components/Information';
 import './App.css';
 
 function App() {
+  const [tab, setTab] = useState('home');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar tab={tab} setTab={setTab} />
+      <div className="material-main-content">
+        {tab === 'home' && <PredictForm />}
+        {tab === 'dataset' && <Dataset />}
+        {tab === 'info' && <Information />}
+      </div>
     </div>
   );
 }
