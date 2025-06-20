@@ -228,6 +228,11 @@ function PredictForm() {
               <strong>Recommended Fertilizer:</strong> {result.predicted_fertilizer}
             </div>
           )}
+          {result.predicted_fertilizer && (
+            <div style={{marginBottom: 6}}>
+              <strong>Advice :</strong> {result.advice}
+            </div>
+          )}
             {result.error && (
                 <div style={{color: '#ff5252'}}>
                 <strong>Error:</strong> {result.error}
