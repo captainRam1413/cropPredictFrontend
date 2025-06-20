@@ -1,7 +1,7 @@
 # 🌿 [Crop & Fertilizer Prediction](https://crop-predict-frontend.vercel.app/)
 
 This repository contains the [**frontend web application**](https://crop-predict-frontend.vercel.app/) for the Crop & Fertilizer Prediction system.  
-It provides an intuitive, responsive interface for farmers and agronomists to get AI-powered crop and fertilizer recommendations based on soil and weather inputs. [Demo](https://crop-predict-frontend.vercel.app/)
+It provides an intuitive, responsive interface for farmers and agronomists to get AI-powered crop and fertilizer recommendations based on soil and weather inputs. [Demo](https://crop-predict-frontend.vercel.app/)  [**Backend repo**](https://github.com/captainRam1413/cropPredictBackend)
 
 ---
 <br>
