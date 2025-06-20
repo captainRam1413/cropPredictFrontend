@@ -40,7 +40,7 @@ function PredictForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch('http://localhost:8000/api/predict/', {
+    const response = await fetch('https://croppredictbackend-w9om.onrender.com/api/predict/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
