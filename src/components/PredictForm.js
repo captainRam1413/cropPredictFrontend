@@ -16,6 +16,7 @@ const SOIL_TYPES = [
   'Black',
   'Red',
   'Dark Brown',
+  'Light Brown',
   'Reddish Brown'
 ];
 
