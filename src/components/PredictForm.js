@@ -33,6 +33,8 @@ function PredictForm() {
   });
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingAdvice, setLoadingAdvice] = useState(false);
+  const [advice, setAdvice] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -41,7 +43,8 @@ function PredictForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch('https://croppredictbackend-w9om.onrender.com/api/predict/', {
+    setAdvice(null); // Reset advice when making a new prediction
+    const response = await fetch('http://127.0.0.1:8000/api/predict/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
@@ -49,6 +52,26 @@ function PredictForm() {
     const data = await response.json();
     setResult(data);
     setLoading(false);
+  };
+
+  const handleGetAdvice = async () => {
+    setLoadingAdvice(true);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/advice/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          predicted_crop: result.predicted_crop,
+          predicted_fertilizer: result.predicted_fertilizer
+        })
+      });
+      const data = await response.json();
+      setAdvice(data);
+    } catch (error) {
+      setAdvice({ error: 'Failed to fetch advice' });
+    }
+    setLoadingAdvice(false);
   };
 
   const prettyLabel = (key) => {
@@ -229,16 +252,65 @@ function PredictForm() {
               <strong>Recommended Fertilizer:</strong> {result.predicted_fertilizer}
             </div>
           )}
-          {result.predicted_fertilizer && (
-            <div style={{marginBottom: 6}}>
-              <strong>Advice :</strong> {result.advice}
+          {result.error && (
+            <div style={{color: '#ff5252'}}>
+              <strong>Error:</strong> {result.error}
             </div>
           )}
-            {result.error && (
-                <div style={{color: '#ff5252'}}>
-                <strong>Error:</strong> {result.error}
-                </div>
-            )}
+          
+          {/* Get Advice Button - shown only when result exists and no error */}
+          {!result.error && !advice && (
+            <button
+              onClick={handleGetAdvice}
+              disabled={loadingAdvice}
+              style={{
+                background: 'linear-gradient(90deg, #deb992 0%, #1ba098 100%)',
+                color: '#051622',
+                fontWeight: 700,
+                fontSize: 16,
+                border: 'none',
+                borderRadius: 8,
+                padding: '12px 20px',
+                marginTop: 15,
+                cursor: loadingAdvice ? 'not-allowed' : 'pointer',
+                boxShadow: '0 2px 8px #1ba09844',
+                transition: 'all 0.2s',
+                width: '100%',
+                opacity: loadingAdvice ? 0.6 : 1
+              }}
+            >
+              {loadingAdvice ? "Getting Advice..." : "Get Expert Advice 💡"}
+            </button>
+          )}
+
+          {/* Advice Display */}
+          {advice && !advice.error && (
+            <div style={{
+              marginTop: 15,
+              padding: 15,
+              background: '#051622',
+              border: '1.5px solid #1ba098',
+              borderRadius: 8,
+              color: '#deb992'
+            }}>
+              <h4 style={{color: '#1ba098', marginBottom: 8, marginTop: 0}}>Expert Advice:</h4>
+              <div>{advice.advice || advice.message}</div>
+            </div>
+          )}
+
+          {/* Advice Error */}
+          {advice && advice.error && (
+            <div style={{
+              marginTop: 15,
+              padding: 15,
+              background: '#051622',
+              border: '1.5px solid #ff5252',
+              borderRadius: 8,
+              color: '#ff5252'
+            }}>
+              <strong>Error:</strong> {advice.error}
+            </div>
+          )}
         </div>
       )}
     </div>
