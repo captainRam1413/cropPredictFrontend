@@ -44,7 +44,7 @@ function PredictForm() {
     e.preventDefault();
     setLoading(true);
     setAdvice(null); // Reset advice when making a new prediction
-    const response = await fetch('http://127.0.0.1:8000/api/predict/', {
+    const response = await fetch('https://croppredictbackend-w9om.onrender.com/api/predict/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
@@ -57,7 +57,7 @@ function PredictForm() {
   const handleGetAdvice = async () => {
     setLoadingAdvice(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/advice/', {
+      const response = await fetch('https://croppredictbackend-w9om.onrender.com/api/advice/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
